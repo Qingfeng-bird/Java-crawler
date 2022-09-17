@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * 爬取指定网址上的图片
@@ -20,11 +21,11 @@ import java.util.List;
 public class App {
     public static void main(String[] args) {
         // 网站地址
-        String site = "https://www.xxx.com/";
+        String site = "https://unsplash.com/";
         // 图片保存路径
         String filePath = "F://test";
         // 自定义图片名称
-        String fileName = "xxx";
+        String fileName = "img";
         downLoadImg(site,filePath,fileName);
     }
 
@@ -37,6 +38,9 @@ public class App {
     private static void downLoadImg(String website,String filePath,String fileName) {
         List<String> urlList = new ArrayList<>();
         try {
+            // 日志工具类对象
+            LoggerUtil logger = new LoggerUtil();
+
             // 获取网站图片的 src
             Connection connection = Jsoup.connect(website);
             Document document = connection.get();
@@ -56,6 +60,9 @@ public class App {
 
                 // 下载图片
                 getImg(urlList,filePath,fileName);
+
+                // 记录日志到 log.txt 文件
+                logger.log("下载完成，第" + i + "张图片",filePath + "//log.txt");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -71,6 +78,7 @@ public class App {
     private static void getImg(List<String> imgURL,String filePath,String fileName){
         InputStream in = null;
         FileOutputStream fos = null;
+
         for (int i = 0; i < imgURL.size(); i++) {
             try {
                 URL url = new URL(imgURL.get(i));
@@ -116,6 +124,6 @@ public class App {
      * @return              文件完整路径
      */
     private static String appendPath(String filePath,String fileName,Integer i) {
-        return filePath + "//" + fileName + i + ".jpg";
+        return filePath + "//" + fileName + "_" + i + ".jpg";
     }
 }
