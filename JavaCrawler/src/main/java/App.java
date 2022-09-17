@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class App {
     public static void main(String[] args) {
         // 网站地址
-        String site = "https://unsplash.com/";
+        String site = "https://xxx.com/";
         // 图片保存路径
         String filePath = "F://test";
         // 自定义图片名称
